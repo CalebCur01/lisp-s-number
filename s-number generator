@@ -1,0 +1,41 @@
+;Genearate "schizophrenic numbers" as described at - https://en.wikipedia.org/wiki/Schizophrenic_number
+ #lang sicp
+
+
+(define (rec n)
+  (if
+   (= n 0)
+   0
+   ( + n (* 10 (rec (- n 1))))))
+
+
+(define (square x) 
+  (* x x))
+
+(define (average x y)
+  (/ (+ x y) 2))
+
+(define (abs x)
+  (if (> x 0)
+      x
+      (- x)))
+
+
+(define (good-enough2? newguess guess)
+  (< (abs (- newguess guess)) (/ guess 10000)))
+
+(define (improve-guess guess x)
+  (average (/ x guess) guess))
+
+(define (square-iter2 guess x)
+  (if (good-enough2? (improve-guess guess x) guess)
+      (improve-guess guess x)
+      (square-iter2 (improve-guess guess x) x)))
+
+(define (sqrt x)
+  (square-iter2 1.0 x))
+
+
+
+(define (schizo n)
+  (sqrt (rec n)))
